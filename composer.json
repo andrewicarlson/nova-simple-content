@@ -1,0 +1,42 @@
+{
+    "name": "carlson/nova-simple-content",
+    "description": "A simple content package for pages and blog posts for Laravel applications using Nova",
+    "autoload": {
+        "psr-4": {
+            "Carlson\\NovaSimpleContent\\": "src/app/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "src/tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Andrew Carlson"
+        }
+    ],
+    "require-dev": {
+        "orchestra/testbench": "^6.21",
+        "phpunit/phpcov": "^8.2",
+        "phpunit/phpunit": "^9.0"
+    },
+    "require": {
+        "illuminate/support": "^8.0"
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@php ./vendor/bin/testbench package:discover --ansi"
+        ],
+        "test": "vendor/phpunit/phpunit/phpunit --prepend coverage/xdebug-filter.php --coverage-html coverage/coverage-report"
+    },
+    "type": "library",
+    "license": "MIT",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Carlson\\NovaSimpleContent\\NovaSimpleContentServiceProvider"
+            ]
+        }
+    }
+}

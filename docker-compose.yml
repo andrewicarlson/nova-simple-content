@@ -1,0 +1,43 @@
+version: '2'
+services:
+
+  # Application
+  app:
+    container_name: nova_simple_content_app
+    build:
+      context: ./
+      dockerfile: app.dockerfile
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./custom.ini:/usr/local/etc/php/conf.d/custom.ini
+    environment:
+      - "DB_PORT=3306"
+      - "DB_HOST=nova_simple_content_database"
+      - "REDIS_HOST=cache"
+    expose:
+      - "587"
+      - "6001"
+    links:
+      - testdatabase:testdatabase
+
+  # Test Database
+  testdatabase:
+    image: mysql:5.7
+    container_name: nova_simple_content_database
+    volumes:
+      - testdbdata:/var/lib/mysql
+    environment:
+      # Defaults for Laravel
+      - "MYSQL_DATABASE=homestead"
+      - "MYSQL_USER=homestead"
+      - "MYSQL_PASSWORD=secret"
+      - "MYSQL_ROOT_PASSWORD=secret"
+    ports:
+      - "3306:3306"
+  cache:
+      container_name: nova_simple_content_cache
+      image: redis:3.0-alpine
+
+volumes:
+  testdbdata:
